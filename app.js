@@ -4,9 +4,18 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var empleadosRouter = require('./routes/empleados');
+var departamentosRouter = require('./routes/departamentos');
+
+require('dotenv').config();
 
 var app = express();
+
+require('./db').conexion();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -15,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/empleados', empleadosRouter);
+app.use('/departamentos', departamentosRouter);
 
 module.exports = app;

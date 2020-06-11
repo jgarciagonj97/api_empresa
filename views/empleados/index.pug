@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+      .container
+        h2 Lista de empleados
+        table.table
+            thead   
+                tr
+                    th Nombre
+                    th DNI
+                    th Sexo
+                    th Fecha_nacimiento
+                    th Fecha_incorporacion
+                    th Salario
+                    th Cargo
+                    th Id_jefe
+            tbody
+                each empleado in empleados
+                    tr
+                        td= empleado.nombre
+                        td= empleado.dni
+                        td= empleado.sexo
+                        td= empleado.fecha_nacimiento
+                        td= empleado.fecha_incorporacion
+                        td= empleado.salario
+                        td= empleado.cargo
+                        td= empleado.jefe_id
+                        td
+                            a.btn.btn-primary.btn-sm(href="/empleados"+'cliente.id') Ir al detalle
+                            a.btn.btn-danger.btn-sm.ml-1(href="/empleados/delete/"+'cliente.id') Borrar
+                            a.btn.btn-warning.btn-sm.ml-1(href="/empleados/edit/"+empleado.id) Editar

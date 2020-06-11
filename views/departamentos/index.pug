@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+      .container
+        h2 Lista de departamentos
+        table.table
+            thead   
+                tr
+                    th Nombre
+                    th Ciudad
+            tbody
+                each departamento in departamentos
+                    tr
+                        td= departamento.nombre
+                        td= departamento.ciudad
+                        td
+                            a.btn.btn-primary.btn-sm(href="/empleados"+'cliente.id') Ir al detalle
+                            a.btn.btn-danger.btn-sm.ml-1(href="/empleados/delete/"+'cliente.id') Borrar
+                            a.btn.btn-warning.btn-sm.ml-1(href="/empleados/edit/"+'cliente.id') Editar

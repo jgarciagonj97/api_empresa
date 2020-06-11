@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+    .container
+        h2.mt-4 Rellena nuevo empleado
+        form(action="/empleados/create", method="POST")
+            .form-group
+                label Nombre
+                input.form-control(type='text' name='nombre')
+            .form-group
+                label DNI
+                input.form-control(type='text' name='dni')
+            .form-group
+                label Sexo
+                select.form-control(name='sexo')
+                    option(value="M") Masculino
+                    option(value="F") Femenino   
+            .form-group
+                label Fecha Nacimiento
+                input.form-control(type='date' name='fecha_nacimiento')
+            .form-group
+                label Salario
+                input.form-control(type='number' name='salario')
+            .form-group
+                label Cargo
+                input.form-control(type='text' name='cargo')
+            .form-group
+                label Jefe
+                input.form-control(type='number' name='fk_departamento')
+            .form-group
+                label Jefe
+                input.form-control(type='number' name='jefe_id')
+            input.btn.btn-primary.btn-block(type="submit", value="Enviar")
