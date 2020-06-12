@@ -22,16 +22,6 @@ const create = ({ nombre, dni, sexo, fecha_nacimiento, salario, cargo, fk_depart
     })
 };
 
-const getById = (pEmpleadoId) => {
-    return new Promise((resolve, reject) => {
-        //Este select siempre devuelve array aunque solo sea uno, por eso luego cojo el rows[0]. SELECT SIEMPRE DEVUELVE ARRAY
-        db.query('select * from empleados where id=?', [pEmpleadoId], (err, rows) => {
-            if (err) reject(err);
-            resolve(rows[0]);
-        })
-    });
-};
-
 const updateById = (pEmpleadoId, { nombre, dni, sexo, fecha_nacimiento, salario, cargo, fk_departamento, jefe_id }) => {
     return new Promise((resolve, reject) => {
         db.query('update empleados set nombre=?, dni=?, sexo=?, fecha_nacimiento=?, salario=?, cargo=?, fk_departamento=?, jefe_id=? where id=?', [nombre, dni, sexo, fecha_nacimiento, salario, cargo, fk_departamento, jefe_id, pEmpleadoId], (error, resultado) => {
@@ -44,6 +34,18 @@ const updateById = (pEmpleadoId, { nombre, dni, sexo, fecha_nacimiento, salario,
     });
 }
 
+const deleteById = (pDepartamentoId) => {
+    return new Promise((resolve, reject) => {
+        db.query('delete from empleados where id=?', [pDepartamentoId], (err, resultado) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(resultado);
+            }
+        });
+    });
+};
+
 module.exports = {
-    getAll, create, getById, updateById
+    getAll, create, updateById, deleteById
 }

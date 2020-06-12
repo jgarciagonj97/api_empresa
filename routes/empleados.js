@@ -1,5 +1,7 @@
 var router = require('express').Router();
 const moment = require('moment');
+const { check, validationResult } = require('express-validator');
+
 
 var Empleado = require('../models/empleado');
 
@@ -7,9 +9,7 @@ var Empleado = require('../models/empleado');
 // router.get('/', (req, res) => {
 //   Empleado.getAll()
 //     .then((rows) => {
-//       res.render('index', {
-//         empleados: rows
-//       });
+//       res.json(rows);
 //     })
 //     .catch((err) => { res.send(err) })
 // });
@@ -23,39 +23,42 @@ router.get('/', async (req, res) => {
       empleado.fecha_incorporacion = moment(empleado.fecha_incorporacion).format('DD/MM/YYYY');
       empleadosBien.push(empleado);
     }
-    res.render('empleados/index', { empleados: empleadosBien });
+    res.json({ success: 'Se han recogido todos los empleados', empleados: empleadosBien });
   } catch (err) {
     res.send(err);
   }
 });
 
-router.get('/new', (req, res) => {
-  res.render('empleados/formCreate');
-});
-
-router.post('/create', async (req, res) => {
-  const result = await Empleado.create(req.body);
-  console.log(result);
-  res.redirect('/empleados');
-});
-
-router.get('/edit/:empleadoId', async (req, res) => {
+router.post('/', [check('dni', 'El dni es obligatorio y debe contener 10 caracteres').exists().isLength({ min: 10 })], async (req, res) => {
+  const errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    return res.json(errores.array());
+  }
   try {
-    //console.log(req.params.empleadoId);
-    const empleado = await Empleado.getById(req.params.empleadoId);
-    empleado.fecha_nacimiento = moment(empleado.fecha_nacimiento).format('YYYY-MM-DD');
-    res.render('empleados/formEdit', { empleado: empleado });
-  } catch (err) {
-    res.send(err);
+    const result = await Empleado.create(req.body);
+    console.log(result);
+    res.json({ success: 'Lo creaste', creado: result });
+  }
+  catch (err) {
+    res.json(err);
   }
 });
 
-router.post('/update', async (req, res) => {
-  try {
-    const empleado = await Empleado.updateById(req.body.empleadoId, req.body);
-    res.redirect('/empleados');
-  } catch (err) {
-    res.send(err);
+router.put('/:idEmpleado', async (req, res) => {
+  const resultado = await Empleado.updateById(req.params.idEmpleado, req.body);
+  if (resultado['affectedRows'] === 1) {
+    res.json({ correcto: 'Se ha actualizado el empleado' });
+  } else {
+    res.json({ error: 'No se ha actualizado' });
+  }
+});
+
+router.delete('/:idEmpleado', async (req, res) => {
+  const resultado = await Empleado.deleteById(req.params.idEmpleado);
+  if (resultado['affectedRows'] === 1) {
+    res.json({ success: 'Se ha borrado el empleado' });
+  } else {
+    res.json({ error: 'No se ha encontrado el empleado' });
   }
 });
 

@@ -1,1 +1,59 @@
-POST http://localhost:3000/empleados/create
+GET http://localhost:3000/empleados
+
+###
+POST http://localhost:3000/empleados
+Content-Type: application/json
+
+{
+      "nombre": "Albertito",
+      "dni": "823",
+      "sexo": "M",
+      "fecha_nacimiento": "20/11/1955",
+      "salario": 7500,
+      "cargo": "secretaria",
+      "fk_departamento": 4,
+      "jefe_id": null
+}
+
+###
+PUT http://localhost:3000/empleados/13
+Content-Type: application/json
+
+{
+      "nombre": "Faustina",
+      "dni": "123456",
+      "sexo": "F",
+      "fecha_nacimiento": "20/11/1995",
+      "salario": 2478,
+      "cargo": "limpiadora",
+      "fk_departamento": 4,
+      "jefe_id": 3
+}
+
+###
+DELETE http://localhost:3000/empleados/13
+
+
+###
+GET http://localhost:3000/departamentos
+
+###
+POST http://localhost:3000/departamentos
+Content-Type: application/json
+
+{
+      "nombre": "Marketing",
+      "ciudad": ""
+}
+
+###
+PUT http://localhost:3000/departamentos/10
+Content-Type: application/json
+
+{
+      "nombre": "Marketing",
+      "ciudad": "Alicante"
+}
+
+###
+DELETE http://localhost:3000/departamentos/10

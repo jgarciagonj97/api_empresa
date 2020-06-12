@@ -11,6 +11,41 @@ const getAll = function () {
     });
 };
 
+const create = ({ nombre, ciudad }) => {
+    return new Promise((resolve, reject) => {
+        db.query('insert into departamento (nombre, ciudad) values (?,?)',
+            [nombre, ciudad],
+            (err, result) => {
+                if (err) reject(err);
+                resolve(result);
+            });
+    })
+};
+
+const updateById = (pDepartamentoId, { nombre, ciudad }) => {
+    return new Promise((resolve, reject) => {
+        db.query('update departamento set nombre=?, ciudad=? where id=?', [nombre, ciudad, pDepartamentoId], (error, resultado) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(resultado);
+            }
+        });
+    });
+}
+
+const deleteById = (pDepartamentoId) => {
+    return new Promise((resolve, reject) => {
+        db.query('delete from departamento where id=?', [pDepartamentoId], (err, resultado) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(resultado);
+            }
+        });
+    });
+};
+
 module.exports = {
-    getAll
+    getAll, create, updateById, deleteById
 }
