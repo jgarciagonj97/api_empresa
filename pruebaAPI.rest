@@ -5,23 +5,23 @@ POST http://localhost:3000/empleados
 Content-Type: application/json
 
 {
-      "nombre": "Albertito",
-      "dni": "823",
+      "nombre": "Ramon",
+      "dni": "82319814H",
       "sexo": "M",
-      "fecha_nacimiento": "20/11/1955",
-      "salario": 7500,
-      "cargo": "secretaria",
-      "fk_departamento": 4,
-      "jefe_id": null
+      "fecha_nacimiento": "10/02/1970",
+      "salario": 3564,
+      "cargo": "marketing",
+      "fk_departamento": 2,
+      "jefe_id": 2
 }
 
 ###
-PUT http://localhost:3000/empleados/13
+PUT http://localhost:3000/empleados/14
 Content-Type: application/json
 
 {
-      "nombre": "Faustina",
-      "dni": "123456",
+      "nombre": "Albertito",
+      "dni": "98789671Y",
       "sexo": "F",
       "fecha_nacimiento": "20/11/1995",
       "salario": 2478,

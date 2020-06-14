@@ -29,7 +29,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', [check('dni', 'El dni es obligatorio y debe contener 10 caracteres').exists().isLength({ min: 10 })], async (req, res) => {
+router.post('/', [check(['nombre', 'sexo', 'fecha_nacimiento', 'salario', 'cargo', 'fk_departamento', 'jefe_id'], 'Comprueba que estan todos los datos rellenos correctamente').exists().isLength({ min: 1 }),
+check('dni', 'El dni es obligatorio y debe tener un formato valido').exists().matches(/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/, "i")], async (req, res) => {
   const errores = validationResult(req);
   if (!errores.isEmpty()) {
     return res.json(errores.array());
@@ -44,12 +45,22 @@ router.post('/', [check('dni', 'El dni es obligatorio y debe contener 10 caracte
   }
 });
 
-router.put('/:idEmpleado', async (req, res) => {
-  const resultado = await Empleado.updateById(req.params.idEmpleado, req.body);
-  if (resultado['affectedRows'] === 1) {
-    res.json({ correcto: 'Se ha actualizado el empleado' });
-  } else {
-    res.json({ error: 'No se ha actualizado' });
+router.put('/:idEmpleado', [check(['nombre', 'sexo', 'fecha_nacimiento', 'salario', 'cargo', 'fk_departamento', 'jefe_id'], 'Comprueba que estan todos los datos rellenos correctamente').exists().isLength({ min: 1 }),
+check('dni', 'El dni es obligatorio y debe tener un formato valido').exists().matches(/^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/, "i")], async (req, res) => {
+  const errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    return res.json(errores.array());
+  }
+  try {
+    const resultado = await Empleado.updateById(req.params.idEmpleado, req.body);
+    if (resultado['affectedRows'] === 1) {
+      res.json({ correcto: 'Se ha actualizado el empleado' });
+    } else {
+      res.json({ error: 'No se ha actualizado' });
+    }
+  }
+  catch (err) {
+    res.json(err);
   }
 });
 
